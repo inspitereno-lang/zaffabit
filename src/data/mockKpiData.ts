@@ -45,7 +45,7 @@ export const mockKpiCardsData: (Omit<KpiCardProps, "icon"> & { icon: any })[] = 
     ],
   },
   {
-    title: "New Customers", // maintaining duplicate/typo card from reference
+    title: "New Maids",
     timeframeLabel: "Today",
     value: "42",
     changeText: "↗ 12.4%",

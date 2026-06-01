@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useStore } from "../store/useStore";
 import {
-  UserPlus,
   Edit2,
   Trash2,
   Check,
@@ -9,13 +8,13 @@ import {
   Search,
   SlidersHorizontal,
   UserCheck,
+  UserPlus,
   UserX,
   Users,
 } from "lucide-react";
 
 export const UserManagementView: React.FC = () => {
   const users = useStore((state) => state.users);
-  const addUser = useStore((state) => state.addUser);
   const updateUser = useStore((state) => state.updateUser);
   const deleteUser = useStore((state) => state.deleteUser);
 
@@ -29,7 +28,7 @@ export const UserManagementView: React.FC = () => {
   const [userEmail, setUserEmail] = useState("");
   const [userPhone, setUserPhone] = useState("");
   const [userLocation, setUserLocation] = useState("");
-  const [userStatus, setUserStatus] = useState<"ACTIVE" | "INACTIVE" | "PENDING">("ACTIVE");
+  const [userStatus, setUserStatus] = useState("");
   const [userJoinDate, setUserJoinDate] = useState("");
 
   const handleEditUserClick = (index: number) => {
@@ -53,41 +52,17 @@ export const UserManagementView: React.FC = () => {
     setEditingUserIndex(null);
   };
 
-  const handleAddUserClick = () => {
-    const newUser = {
-      email: "new.user@example.com",
-      phone: "(000) 000-0000",
-      location: "Location, Country",
-      status: "ACTIVE" as const,
-      joinDate: new Date().toLocaleDateString("en-US", { month: "short", day: "2-digit", year: "numeric" }),
-    };
-    addUser(newUser);
-    setEditingUserIndex(users.length); // target index is new length
-    setUserEmail(newUser.email);
-    setUserPhone(newUser.phone);
-    setUserLocation(newUser.location);
-    setUserStatus(newUser.status);
-    setUserJoinDate(newUser.joinDate);
-  };
+
 
   return (
     <div className="p-8 space-y-6 flex-1 max-w-[1400px] mx-auto w-full">
       
       {/* Headline Greeting */}
-      <div className="flex items-center justify-between">
-        <div className="flex flex-col text-left gap-0.5">
-          <h1 className="text-lg font-bold text-slate-900 font-display">User Management</h1>
-          <p className="text-xs text-slate-400 font-light">
-            Manage and audit your organization's user base and permissions.
-          </p>
-        </div>
-        <button
-          onClick={handleAddUserClick}
-          className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-[#6c5ce7] hover:bg-[#5b4cd8] text-white text-xs font-semibold shadow-sm shadow-[#6c5ce7]/15 transition-all duration-150 cursor-pointer"
-        >
-          <UserPlus className="w-4 h-4" />
-          <span>Add User</span>
-        </button>
+      <div className="flex flex-col text-left gap-0.5">
+        <h1 className="text-lg font-bold text-slate-900 font-display">User Management</h1>
+        <p className="text-xs text-slate-400 font-light">
+          Manage and audit your organization's user base and permissions.
+        </p>
       </div>
 
       {/* ==================== 4 KPI CARDS ==================== */}
@@ -181,17 +156,7 @@ export const UserManagementView: React.FC = () => {
               />
             </div>
 
-            {/* Status Filter */}
-            <select
-              className="text-[10px] font-semibold text-slate-600 bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-1.5 focus:outline-none focus:border-[#6c5ce7] cursor-pointer"
-              value={statusFilter}
-              onChange={(e) => setStatusFilter(e.target.value)}
-            >
-              <option value="ALL">All Statuses</option>
-              <option value="ACTIVE">ACTIVE</option>
-              <option value="INACTIVE">INACTIVE</option>
-              <option value="PENDING">PENDING</option>
-            </select>
+
 
             <button className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-slate-200 bg-white text-[10px] font-bold text-slate-600 hover:bg-slate-50 cursor-pointer">
               <SlidersHorizontal className="w-3.5 h-3.5 text-slate-400" />
@@ -208,7 +173,7 @@ export const UserManagementView: React.FC = () => {
                 <th className="py-3 px-6 text-[9px] font-bold text-slate-400 tracking-wider">EMAIL ADDRESS</th>
                 <th className="py-3 px-6 text-[9px] font-bold text-slate-400 tracking-wider">CONTACT NUMBER</th>
                 <th className="py-3 px-6 text-[9px] font-bold text-slate-400 tracking-wider">LOCATION</th>
-                <th className="py-3 px-6 text-[9px] font-bold text-slate-400 tracking-wider">STATUS</th>
+
                 <th className="py-3 px-6 text-[9px] font-bold text-slate-400 tracking-wider">JOIN DATE</th>
                 <th className="py-3 px-6 text-[9px] font-bold text-slate-400 tracking-wider text-right">ACTIONS</th>
               </tr>
@@ -248,17 +213,7 @@ export const UserManagementView: React.FC = () => {
                             onChange={(e) => setUserLocation(e.target.value)}
                           />
                         </td>
-                        <td className="py-3 px-6">
-                          <select
-                            className="text-[11px] text-slate-600 bg-slate-50 border border-slate-200 rounded px-1.5 py-1 focus:outline-none focus:border-[#6c5ce7]"
-                            value={userStatus}
-                            onChange={(e) => setUserStatus(e.target.value as any)}
-                          >
-                            <option value="ACTIVE">ACTIVE</option>
-                            <option value="INACTIVE">INACTIVE</option>
-                            <option value="PENDING">PENDING</option>
-                          </select>
-                        </td>
+
                         <td className="py-3 px-6">
                           <input
                             className="w-full text-[11px] text-slate-600 bg-slate-50 border border-slate-200 rounded px-2 py-1 focus:outline-none focus:border-[#6c5ce7]"
@@ -296,17 +251,7 @@ export const UserManagementView: React.FC = () => {
                         <td className="py-3.5 px-6">
                           <span className="text-[11px] text-slate-400 font-light">{user.location}</span>
                         </td>
-                        <td className="py-3.5 px-6">
-                          <span className={`px-2 py-0.5 rounded text-[8px] font-bold uppercase tracking-wider leading-none inline-flex items-center ${
-                            user.status === "ACTIVE"
-                              ? "bg-emerald-50 text-emerald-600 border border-emerald-100"
-                              : user.status === "INACTIVE"
-                              ? "bg-rose-50 text-rose-600 border border-rose-100"
-                              : "bg-amber-50 text-amber-600 border border-amber-100"
-                          }`}>
-                            {user.status}
-                          </span>
-                        </td>
+
                         <td className="py-3.5 px-6">
                           <span className="text-[11px] text-slate-400 font-light">{user.joinDate}</span>
                         </td>
