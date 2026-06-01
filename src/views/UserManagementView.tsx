@@ -21,14 +21,13 @@ export const UserManagementView: React.FC = () => {
   const userSearch = useStore((state) => state.userSearch);
   const setUserSearch = useStore((state) => state.setUserSearch);
   const statusFilter = useStore((state) => state.statusFilter);
-  const setStatusFilter = useStore((state) => state.setStatusFilter);
 
   // Local editing fields
   const [editingUserIndex, setEditingUserIndex] = useState<number | null>(null);
   const [userEmail, setUserEmail] = useState("");
   const [userPhone, setUserPhone] = useState("");
   const [userLocation, setUserLocation] = useState("");
-  const [userStatus, setUserStatus] = useState("");
+  const [userStatus, setUserStatus] = useState<"ACTIVE" | "INACTIVE" | "PENDING">("ACTIVE");
   const [userJoinDate, setUserJoinDate] = useState("");
 
   const handleEditUserClick = (index: number) => {
